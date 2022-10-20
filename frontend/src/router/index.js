@@ -10,6 +10,10 @@ export default new VueRouter({
 			path: '/login',
 			component: () => import('@/views/LoginView.vue'),
 		},
+		{
+			path: '/signup',
+			component: () => import('@/views/SignupView.vue'),
+		},
 		// {
 		// 	path: '*',
 		// 	component: () => import('@/views/LoginView.vue'),
