@@ -1,0 +1,52 @@
+IMAGE_NAME = "bento/ubuntu-20.04"
+
+VM_GROUP_NAME = "vue-fastapi-devops"
+
+# Network Configure
+NETWORK_SUB = "192.168.50."
+START_IP = 150
+
+# VM Spec
+spec = { :cpus => 2, :mem => 4096 }
+
+Vagrant.configure("2") do |config|
+  # vagrant configure
+  config.vm.box = IMAGE_NAME
+  config.vm.synced_folder "./backup", "/root/backup"
+
+  # Development Server
+  config.vm.define "dev", primary: true do |dev|
+	dev.vm.box = IMAGE_NAME
+	dev.vm.network "private_network", ip: "#{NETWORK_SUB}#{START_IP}"
+	dev.vm.hostname = "dev"
+	dev.vm.provision "shell", path: "./scripts/python_install.sh"
+	dev.vm.provision "shell", path: "./scripts/nodejs_install.sh"
+	dev.vm.provision "shell", path: "./scripts/docker_install.sh"
+  
+	dev.vm.provider "virtualbox" do |v|
+	  v.name = "#{VM_GROUP_NAME}-dev"
+	  v.gui = false
+	  v.memory = spec[:mem]
+	  v.cpus = spec[:cpus]
+	  v.customize ["modifyvm", :id, "--groups", "/#{VM_GROUP_NAME}"]
+	end
+  end
+  
+  # Product Server
+    config.vm.define "pro", primary: true do |pro|
+	pro.vm.box = IMAGE_NAME
+	pro.vm.network "private_network", ip: "#{NETWORK_SUB}#{START_IP + 1}"
+	pro.vm.hostname = "pro"
+	pro.vm.provision "shell", path: "./scripts/python_install.sh"
+	pro.vm.provision "shell", path: "./scripts/nodejs_install.sh"
+	pro.vm.provision "shell", path: "./scripts/docker_install.sh"
+  
+	pro.vm.provider "virtualbox" do |v|
+	  v.name = "#{VM_GROUP_NAME}-pro"
+	  v.gui = false
+	  v.memory = spec[:mem]
+	  v.cpus = spec[:cpus]
+	  v.customize ["modifyvm", :id, "--groups", "/#{VM_GROUP_NAME}"]
+	end
+  end
+end
