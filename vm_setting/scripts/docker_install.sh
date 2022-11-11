@@ -33,3 +33,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 # Docker Engine start
 sudo systemctl enable --now docker
 sudo systemctl enable --now containerd
+
+# Docker command-line auto completion
+apt-get install bash-completion -y
+sudo curl -L https://raw.githubusercontent.com/docker/machine/v0.14.0/contrib/completion/bash/docker-machine.bash -o /etc/bash_completion.d/docker-machine
