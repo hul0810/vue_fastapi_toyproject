@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  tasks:
+  - name: git clone single branch
+    git:
+      repo: https://github.com/hul0810/vue_fastapi_toyproject.git
+      dest: /root/vue_fastapi_toyproject
+      version: frontend

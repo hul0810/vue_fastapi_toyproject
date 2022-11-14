@@ -1,0 +1,17 @@
+---
+- name: python install
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+  - name: repo add for python3.10
+    apt_repository:
+      repo: ppa:deadsnakes/ppa
+
+  - name: install python3.10
+    apt:
+      name:
+        - python3.10
+        - python3-pip
+        - python3.10-venv
+      state: present 

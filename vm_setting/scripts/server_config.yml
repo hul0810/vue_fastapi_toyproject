@@ -1,0 +1,27 @@
+---
+- name: configure server
+  hosts: localhost
+  gather_facts: no
+  
+  tasks:
+  - name: permit root login
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      insertafter: "^#PermitRoot"
+      line: "PermitRootLogin yes"
+
+  - name: reload sshd
+    service:
+      name: sshd
+      state: reloaded
+      
+  - name: set alias
+    lineinfile:
+      path: /root/.bashrc
+      insertafter: "^alias"
+      line: "alias anp='ansible-playbook'"
+
+  - name: install net-tools
+    apt:
+      name: net-tools
+      state: latest

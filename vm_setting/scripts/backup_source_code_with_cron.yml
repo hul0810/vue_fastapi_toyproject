@@ -1,0 +1,12 @@
+---
+- name: configure crontab
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+  - name: source code backup every 3 hours
+    cron:
+      name: "source code backup"
+      minute: "0"
+      hour: "*/3"
+      job: "cp -r /root/vue_fastapi_toyproject /root/backup"
