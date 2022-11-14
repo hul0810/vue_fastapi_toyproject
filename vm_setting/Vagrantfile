@@ -18,11 +18,29 @@ Vagrant.configure("2") do |config|
   config.vm.define "dev", primary: true do |dev|
 	dev.vm.box = IMAGE_NAME
 	dev.vm.network "private_network", ip: "#{NETWORK_SUB}#{START_IP}"
+	dev.vm.network "public_network"
 	dev.vm.hostname = "dev"
-	dev.vm.provision "shell", path: "./scripts/python_install.sh"
+	# dev.vm.provision "shell", path: "./scripts/python_install.sh"
+	# dev.vm.provision "shell", path: "./scripts/docker_install.sh"
+	# dev.vm.provision "shell", path: "./scripts/git_clone.sh", privileged: true
+	
+	dev.vm.provision "shell", path: "./scripts/ansible_install.sh"
+	
+	# file provision은 상승된 권한이 없다. $HOME = /home/vagrant
+	dev.vm.provision "file", source: "./scripts/python_install.yml", destination: "$HOME/ansible-playbook/python_install.yml"
+	dev.vm.provision "file", source: "./scripts/docker_install.yml", destination: "$HOME/ansible-playbook/docker_install.yml"
+	dev.vm.provision "file", source: "./scripts/git_clone.yml", destination: "$HOME/ansible-playbook/git_clone.yml"
+	dev.vm.provision "file", source: "./scripts/backup_source_code_with_cron.yml", destination: "$HOME/ansible-playbook/backup_source_code_with_cron.yml"
+	dev.vm.provision "file", source: "./scripts/server_config.yml", destination: "$HOME/ansible-playbook/server_config.yml"
+	
+	# shell provision은 상승된 권한으로 실행된다. $HOME = /root
+	dev.vm.provision "shell", inline: "ansible-playbook /home/vagrant/ansible-playbook/python_install.yml"
+	dev.vm.provision "shell", inline: "ansible-playbook /home/vagrant/ansible-playbook/docker_install.yml"
+	dev.vm.provision "shell", inline: "ansible-playbook /home/vagrant/ansible-playbook/git_clone.yml"
+	dev.vm.provision "shell", inline: "ansible-playbook /home/vagrant/ansible-playbook/backup_source_code_with_cron.yml"
+	dev.vm.provision "shell", inline: "ansible-playbook /home/vagrant/ansible-playbook/server_config.yml"
 	dev.vm.provision "shell", path: "./scripts/nodejs_install.sh"
-	dev.vm.provision "shell", path: "./scripts/docker_install.sh"
-  
+
 	dev.vm.provider "virtualbox" do |v|
 	  v.name = "#{VM_GROUP_NAME}-dev"
 	  v.gui = false
