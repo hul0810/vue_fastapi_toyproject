@@ -19,7 +19,7 @@
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane show active" id="login" role="tabpanel" aria-labelledby="home-tab">
 					<div class="p-4 border pannel">
-						<form action="">
+						<form @submit.prevent="submitForm">
 							<!-- id_pw_wrap -->
 							<div class="id_pw_wrap mb-1">
 								<!-- id input -->
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { Login } from '@/api/index.js';
+
 export default {
 	data() {
 		return {
@@ -85,6 +87,18 @@ export default {
 		},
 		FocusOutPw() {
 			this.FocusPwCheck = false;
+		},
+		async submitForm() {
+			const userData = {
+				username: this.id,
+				password: this.pw,
+			};
+			try {
+				const { data } = Login(userData);
+				console.log(data);
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	},
 };
