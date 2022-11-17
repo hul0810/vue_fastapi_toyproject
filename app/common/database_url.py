@@ -1,0 +1,5 @@
+user = "root"
+password = "1234"
+host = "192.168.50.150"
+port = "3306"
+db = "testdb"
