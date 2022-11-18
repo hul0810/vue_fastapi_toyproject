@@ -14,9 +14,14 @@ export default new VueRouter({
 			path: '/signup',
 			component: () => import('@/views/SignupView.vue'),
 		},
-		// {
-		// 	path: '*',
-		// 	component: () => import('@/views/LoginView.vue'),
-		// },
+		{
+			path: '/main',
+			component: () => import('@/views/MainView.vue'),
+		},
+		{
+			path: '/',
+			redirect: '/login',
+			component: () => import('@/views/LoginView.vue'),
+		},
 	],
 });
