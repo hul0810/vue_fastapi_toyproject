@@ -4,24 +4,24 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 export default new VueRouter({
-	mode: 'history',
-	routes: [
-		{
-			path: '/login',
-			component: () => import('@/views/LoginView.vue'),
-		},
-		{
-			path: '/signup',
-			component: () => import('@/views/SignupView.vue'),
-		},
-		{
-			path: '/main',
-			component: () => import('@/views/MainView.vue'),
-		},
-		{
-			path: '/',
-			redirect: '/login',
-			component: () => import('@/views/LoginView.vue'),
-		},
-	],
+  mode: 'history',
+  routes: [
+    {
+      path: '/login',
+      component: () => import('@/views/LoginView.vue'),
+    },
+    {
+      path: '/signup',
+      component: () => import('@/views/SignupView.vue'),
+    },
+    {
+      path: '/main',
+      component: () => import('@/views/MainView.vue'),
+    },
+    {
+      path: '/',
+      redirect: '/login',
+      component: () => import('@/views/LoginView.vue'),
+    },
+  ],
 });

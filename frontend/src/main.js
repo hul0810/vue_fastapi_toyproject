@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/router/index';
+// import store from '@/store/index';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,6 +20,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 
 new Vue({
-	render: h => h(App),
-	router,
+  render: h => h(App),
+  router,
+  // store,
 }).$mount('#app');
